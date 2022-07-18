@@ -4,17 +4,18 @@ import LandingPage from "./component/LandingPage";
 import SignIn from "./component/SignIn";
 import './App.css';
 
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <Router>
       <header>
-      <Header/>
+        <Header />
       </header>
 
       <Routes>
-       
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/SignIn" element={<SignIn />} />
       </Routes>
 
       <footer>Have Good Day.</footer>
