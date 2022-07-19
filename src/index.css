@@ -5,10 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   margin: 0 auto;
   width: 100%;
-  font-family: monospace;
 }
 
 code {
@@ -17,8 +15,7 @@ code {
 }
 
 .title {
-  /* display: flex; */
-  font-size: 36px;
+  font-size: 40px;
 }
 
 header {
@@ -40,16 +37,22 @@ header {
   align-items: center;
 }
 
-.link {
+.add {
   border: 1.5px solid rgba(0, 0, 0, 0.49);
   border-radius: 15px;
-  padding: 6px;
+  padding: 8px;
   margin: 2px;
   color: rgba(0, 0, 0, 0.49);
-  text-decoration: none;
   font-size: 15px;
   display: flex;
   justify-content: space-around;
+  /* text-decoration: none; */
+}
+
+.link {
+  font-size: 17px;
+  display: flex;
+  align-items: center;
 }
 
 .landing {
@@ -62,6 +65,7 @@ header {
   width: 100%;
   height: 100%;
 }
+
 footer {
   font-size: large;
   width: 100%;
@@ -80,26 +84,26 @@ footer {
     flex-wrap: nowrap;
     font-size: x-small;
   }
-  
+
   .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .link {
     padding: 5px;
     margin: 2px;
   }
 
   footer {
-      position: relative;
-      margin-top: 50px;
+    position: relative;
+    margin-top: 50px;
   }
 
   .landing {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
