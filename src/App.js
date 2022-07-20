@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "./component/Header";
-import LandingPage from "./component/LandingPage";
-import SignIn from "./component/SignIn";
+import Header from "./components/header/Header";
+import LandingPage from "./components/LandingPage";
+import SignIn from "./components/SignIn";
 import './App.css';
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -9,10 +9,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <Router>
-      <header>
-        <Header />
-      </header>
-
+     
+<Header />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/SignIn" element={<SignIn />} />
