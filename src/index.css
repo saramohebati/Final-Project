@@ -18,19 +18,18 @@ code {
   border: 1.5px solid rgba(0, 0, 0, 0.49);
   border-radius: 15px;
   padding: 8px;
-  margin: 2px;
-  /* color: rgba(0, 0, 0, 0.49); */
   font-size: 15px;
   display: flex;
   justify-content: space-around;
-  /* text-decoration: none; */
+  text-decoration: none;
   width: 100%;
 }
 
 .landing {
   /* display: flex; */
   /* justify-content: space-around; */
-  padding: 14px;
+  padding: 18px;
+  margin-top: 20px;
 }
 
 .img1 {
@@ -46,19 +45,20 @@ footer {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 
 @media (max-width: 600px) {
   footer {
     position: relative;
-    margin-top: 50px;
+    margin-top: 30px;
   }
 
   .landing {
     display: flex;
     flex-direction: column;
     align-items: center;
+  margin-top: 10px;
   }
 }

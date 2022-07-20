@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Calendar from '../image/Calendar.png';
 import { Link } from "react-router-dom";
+import { Box } from "@mui/material";
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -16,23 +17,20 @@ const Item = styled(Paper)(({ theme }) => ({
 
 function LandingPage() {
     return (
-        <div>
+        <Box sx={{ width: '100%' }}>
             <Stack
                 direction={{ xs: 'column', sm: 'row' }}
                 alignItems={{ sm: 'center' }}
                 justifyContent={{ sm: 'space-around' }}
-                spacing={{ xs: 4, sm: 12 }}
+                spacing={{ xs: 1, sm: 2, md: 4 }}
                 className='landing'
             >
-                <div>
-                    <h1>Easy and smart coordination</h1>
-                    <div className="link"><Link to="/"> Create Poll</Link></div>
-                </div>
-
+                
+                <h1>Easy and smart coordination</h1>
+                <div className="add"><Link to="/"> Create Poll</Link></div>
                 <Item><img className="img1" src={Calendar}></img></Item>
             </Stack>
-        </div>
-
+        </Box>
     );
 
 }
