@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import HomeIcon from '@mui/icons-material/Home';
+// import HomeIcon from '@mui/icons-material/Home';
 import LoginIcon from '@mui/icons-material/Login';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AppBar from '@mui/material/AppBar';
@@ -26,12 +26,17 @@ function Header() {
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static" theme={lightTheme}>
                     <Toolbar>
-                        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-                            Polling
+                        <Typography variant="h5" component="div" 
+                        sx={{ 
+                            flexGrow: 1,
+                            textDecoration: 'none',
+                            color: 'black',
+                            fontWeight: 700
+                    }}
+                        >
+                            <div className="title"><Link to="/" >Polly</Link></div>
                         </Typography>
-                        <Button>
-                            <div className="link"><Link to="/"><HomeIcon color="action" sx={{ fontSize: 20 }} /></Link></div>
-                        </Button>
+                       
                         <Button>
                             <div className="link"><Link to="/SignIn"><LoginIcon color="action" sx={{ fontSize: 20 }} /> </Link></div>
                         </Button>

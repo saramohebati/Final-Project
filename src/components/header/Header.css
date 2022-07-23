@@ -1,5 +1,11 @@
+.title {
+  text-decoration: none;
+  color: black;
+}
+
 .link {
-  font-size: 20px;
+  text-decoration: none;
+  color: black;
 }
 
 @media (max-width: 600px) {
