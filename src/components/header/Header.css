@@ -1,11 +1,7 @@
-.title {
+.title a {
   text-decoration: none;
-  color: black;
-}
-
-.link {
-  text-decoration: none;
-  color: black;
+  color: rgb(49, 48, 48);
+  font-weight: bold;
 }
 
 @media (max-width: 600px) {

@@ -14,29 +14,6 @@ code {
     monospace;
 }
 
-.add {
-  border: 1.5px solid rgba(0, 0, 0, 0.49);
-  border-radius: 15px;
-  padding: 8px;
-  font-size: 15px;
-  display: flex;
-  justify-content: space-around;
-  text-decoration: none;
-  width: 100%;
-}
-
-.landing {
-  /* display: flex; */
-  /* justify-content: space-around; */
-  padding: 18px;
-  margin-top: 20px;
-}
-
-.img1 {
-  width: 100%;
-  height: 100%;
-}
-
 footer {
   font-size: large;
   width: 100%;
@@ -48,17 +25,10 @@ footer {
   margin-top: 20px;
 }
 
-
 @media (max-width: 600px) {
   footer {
     position: relative;
     margin-top: 30px;
   }
 
-  .landing {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  margin-top: 10px;
-  }
 }

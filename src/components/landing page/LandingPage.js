@@ -1,8 +1,9 @@
 import React from "react";
+import './LandingPage.css';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
-import Calendar from '../image/Calendar.png';
+import Calendar from '../../image/Calendar.png';
 import { Link } from "react-router-dom";
 import { Box } from "@mui/material";
 
@@ -25,7 +26,7 @@ function LandingPage() {
                 spacing={{ xs: 1, sm: 2, md: 4 }}
                 className='landing'
             >
-                
+
                 <h1>Easy and smart coordination</h1>
                 <div className="add"><Link to="/"> Create Poll</Link></div>
                 <Item><img className="img1" src={Calendar}></img></Item>
