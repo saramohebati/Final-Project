@@ -1,39 +1,80 @@
 import React from "react";
-import './LandingPage.css';
-import { styled } from '@mui/material/styles';
-import Stack from '@mui/material/Stack';
-import Paper from '@mui/material/Paper';
-import Calendar from '../../image/Calendar.png';
+import "./LandingPage.css";
+import Calendar from "../../image/Calendar.png";
+import OnlineCalendar from "../../image/OnlineCalendar.png";
+import TimeManagement from "../../image/TimeManagement.png";
+import Invite from "../../image/Invite.png";
 import { Link } from "react-router-dom";
-import { Box } from "@mui/material";
-
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 
 function LandingPage() {
-    return (
-        <Box sx={{ width: '100%' }}>
-            <Stack
-                direction={{ xs: 'column', sm: 'row' }}
-                alignItems={{ sm: 'center' }}
-                justifyContent={{ sm: 'space-around' }}
-                spacing={{ xs: 1, sm: 2, md: 4 }}
-                className='landing'
-            >
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <Container fixed>
+        <Box 
+        sx={{ height: "100%" }}
+         />
 
-                <h1>Easy and smart coordination</h1>
-                <div className="add"><Link to="/"> Create Poll</Link></div>
-                <Item><img className="img1" src={Calendar}></img></Item>
-            </Stack>
-        </Box>
-    );
+        <div className="content">
+          <div>
+            <h1>Easy and smart coordination</h1>
+            <p>
+              Polly is the fastest way to schedule your meetings and events.
+            </p>
+            <div className="add">
+              <Link to="/"> Create Poll</Link>
+            </div>
+          </div>
 
+          <div>
+            <img className="img" src={Calendar}></img>
+          </div>
+        </div>
+
+        <div className="content">
+          <div>
+            <h1>Select dates and times</h1>
+            <p>
+              Select several possible dates for your event or meeting.
+              Additionally different times can be specified for each day.
+            </p>
+          </div>
+          <div>
+            <img className="img" src={OnlineCalendar}></img>
+          </div>
+        </div>
+
+        <div className="content">
+          <div>
+            <h1>Invite participants</h1>
+            <p>
+              Invite the participants to your meeting poll by email or directly
+              via Polly. They will obtain a link to your personal poll website.
+            </p>
+          </div>
+          <div>
+            <img className="img" src={TimeManagement}></img>
+          </div>
+        </div>
+
+        <div className="content">
+          <div>
+            <h1>Get the optimal date</h1>
+            <p>
+              Each participant indicates which dates and times are suitable. The
+              optimal date for your event can now be easily determined.
+            </p>
+          </div>
+          <div>
+            <img className="img" src={Invite}></img>
+          </div>
+        </div>
+      </Container>
+    </React.Fragment>
+  );
 }
 
 export default LandingPage;
