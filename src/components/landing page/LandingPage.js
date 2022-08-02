@@ -14,9 +14,7 @@ function LandingPage() {
     <React.Fragment>
       <CssBaseline />
       <Container fixed>
-        <Box 
-        sx={{ height: "100%" }}
-         />
+        <Box sx={{ height: "100%" }} />
 
         <div className="content">
           <div>
