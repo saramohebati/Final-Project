@@ -26,6 +26,7 @@ function SignIn() {
         password: password,
       })
       .then((response) => {
+        console.log(response);
         const token = response.data.token;
         localStorage.setItem("token", token);
         setUsername("");
