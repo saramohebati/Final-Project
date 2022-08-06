@@ -28,7 +28,7 @@ function LandingPage() {
           </div>
 
           <div>
-            <img className="img" src={Calendar}></img>
+            <img className="img" alt="calendar" src={Calendar}></img>
           </div>
         </div>
 
@@ -41,7 +41,11 @@ function LandingPage() {
             </p>
           </div>
           <div>
-            <img className="img" src={OnlineCalendar}></img>
+            <img
+              className="img"
+              alt="onlinecalendar"
+              src={OnlineCalendar}
+            ></img>
           </div>
         </div>
 
@@ -54,7 +58,11 @@ function LandingPage() {
             </p>
           </div>
           <div>
-            <img className="img" src={TimeManagement}></img>
+            <img
+              className="img"
+              alt="timemanagement"
+              src={TimeManagement}
+            ></img>
           </div>
         </div>
 
@@ -67,7 +75,7 @@ function LandingPage() {
             </p>
           </div>
           <div>
-            <img className="img" src={Invite}></img>
+            <img className="img" alt="invite" src={Invite}></img>
           </div>
         </div>
       </Container>

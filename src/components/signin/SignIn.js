@@ -85,7 +85,7 @@ function SignIn() {
       </form>
 
       <div>
-        <img className="img" src={Login}></img>
+        <img className="img" alt="login" src={Login}></img>
       </div>
     </Box>
   );
