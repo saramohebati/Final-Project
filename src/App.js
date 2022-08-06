@@ -1,8 +1,8 @@
 import React from "react";
 import Header from "./components/header/Header";
-import LandingPage from "./components/landing page/LandingPage";
-import SignIn from "./components/signin/SignIn";
-import PollListPage from "./components/poll list page/PollListPage";
+import LandingPage from "./components/landingPage/LandingPage";
+import SignIn from "./components/signIn/SignIn";
+import PollListPage from "./components/pollListPage/PollListPage";
 import "./App.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

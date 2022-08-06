@@ -35,11 +35,11 @@ function SignIn() {
       })
       .catch((res) => {
         const error = res.response.data;
-        const statuse = res.response.statuse;
-        if (statuse === 404) {
+        const status = res.response.status;
+        if (status === 404) {
           setUsernameError(error);
           setPassError("");
-        } else if (statuse === 403) {
+        } else if (status === 403) {
           setPassError(error);
           setUsernameError("");
         }
