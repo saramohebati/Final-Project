@@ -1,8 +1,9 @@
 import React from "react";
 import Header from "./components/header/Header";
-import LandingPage from "./components/landingPage/LandingPage";
+import Landing from "./components/landingPage/Landing";
 import SignIn from "./components/signIn/SignIn";
-import PollListPage from "./components/pollListPage/PollListPage";
+import PollList from "./components/pollListPage/PollList";
+import CreatePoll from "./components/createPollPage/CreatePoll";
 import Footer from "./components/footer/Footer";
 import "./App.css";
 
@@ -13,9 +14,11 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<Landing />} />
         <Route path="/SignIn" element={<SignIn />} />
-        <Route path="/PollListPage" element={<PollListPage />} />
+        <Route path="/PollList" element={<PollList />} />
+        <Route path="/CreatePoll" element={<CreatePoll />} />
+
       </Routes>
       <Footer />
     </Router>

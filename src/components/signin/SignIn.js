@@ -31,7 +31,7 @@ function SignIn() {
         localStorage.setItem("token", token);
         setUsername("");
         setPassword("");
-        navigate("/PollListPage");
+        navigate("/PollList");
       })
       .catch((res) => {
         const error = res.response.data;

@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,16 +11,16 @@ import Paper from '@mui/material/Paper';
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
-const PollListPage = () => {
+const PollList = () => {
     const[data, setData] = useState([]);
     const[delet, setDelet] =useState([]);
 
     useEffect(() => {
-        // const token = localStorage.getItem("Token");
+        const token = localStorage.getItem("token". token);
         const fetchData = async () => {
             try {
                 const { data:response } = await axios.get(
-                    "http://localhost:3000/login", {
+                    "http://localhost:3001/poll", {
                         // title: title,
                         // description: description,
                     });
@@ -36,7 +35,7 @@ const PollListPage = () => {
     const deletePoll = (poll_id, e) => {
         // const token = localStorage.getItem("Token");
         axios
-          .delete(`http://localhost:3000/poll/${poll_id}`, {
+          .delete(`http://localhost:3001/poll/${poll_id}`, {
 
           })
     
@@ -57,12 +56,10 @@ const PollListPage = () => {
       };
 
   return (
-   
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
             <TableCell align="right">Title</TableCell>
             <TableCell align="right">Description</TableCell>
             <TableCell align="right">Link</TableCell>
@@ -80,7 +77,7 @@ const PollListPage = () => {
               <TableCell align="right">{row.Description}</TableCell>
               <TableCell align="right">
                     {" "}
-                    http://localhost3000/PollListPage/{row.poll_id}
+                    http://localhost3000/PollList/{row.poll_id}
                   </TableCell>              
                   <TableCell align="right">{row.Participant}</TableCell>
                   <TableCell align="right">
@@ -98,4 +95,4 @@ const PollListPage = () => {
   );
 }
 
-export default PollListPage;
+export default PollList;

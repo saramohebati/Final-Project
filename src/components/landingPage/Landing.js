@@ -1,5 +1,5 @@
 import React from "react";
-import "./LandingPage.css";
+import "./Landing.css";
 import Calendar from "../../image/Calendar.png";
 import OnlineCalendar from "../../image/OnlineCalendar.png";
 import TimeManagement from "../../image/TimeManagement.png";
@@ -9,7 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 
-function LandingPage() {
+function Landing() {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -83,4 +83,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default Landing;
