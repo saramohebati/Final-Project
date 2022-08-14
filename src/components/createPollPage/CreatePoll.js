@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./CreatePoll.css";
+import Create from "../../image/Create.png";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -8,83 +10,88 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
 const CreatePoll = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [options, setOptions] = useState([]);
-  const [createOption, setCreateOption] = useState([{}, {}]);
-  const [link, setLink] = useState("");
+  const [option, setOption] = useState([]);
+  const [firstOption, setFirstOption] = useState([]);
+  const [secendOption, setSecendOption] = useState([]);
   const [error, setError] = useState("");
+  const [insertedId, setInsertedId] = useState("");
 
-  const navigate = useNavigate();
-
-  const createLink = (objectId) => {
-    return `/Link/${objectId}`;
-  };
-
-  const createPoll = (objectId) => {
-    return `/createPoll/${objectId}`;
-  };
-
-  const token = localStorage.setItem("token", token);
-  const Create = async () => {
-    if (title.length === 0) {
-      setError(true);
-    } else {
-      try {
-        const array = await postoption();
-        const { data: response } = await axios.post(
-          "http://localhost:3001/createPoll",
-          {
-            title: title,
-            description: description,
-            optionsId: array,
-          }
-        );
-
-        // console.log(response);
-
-        const id = response.objectId;
-        const uniqueLink = createLink(id);
-        setLink(uniqueLink);
-        navigate(uniqueLink);
-        createPoll(id);
-      } catch (err) {
-        // console.log(err.message);
-        setError(err.message);
-      }
+  const createPoll = async () => {
+    if (title === "" || firstOption === "" || secendOption === "") {
+      setError("Title And Options Fields Can't Be Empty!");
+      return;
     }
+    const token = localStorage.getItem("token");
+    axios
+      .post(
+        `http://localhost:3001/poll`,
+        {
+          title: title,
+          description: description,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const id = res.data[0].insertId;
+        setInsertedId(id);
+        createPollItems(insertedId);
+      })
+      .catch((res) => {
+        let error = res.response.data;
+        let status = res.response.status;
+        console.log("error :>> ", error);
+        if (status === 401) {
+          navigate("/signIn");
+        }
+      });
   };
 
-  const saveOptions = (e, objectId) => {
-    const data = options;
-    data[objectId] = e.target.value;
-    setOptions(data);
-  };
-
-  const postoption = async () => {
-    const array = [];
-    for (let index = 0; index < options.length; index++) {
-      const option = options[index];
-      try {
-        const { data: response } = await axios.post(
-          "http://localhost:3001/option",
+  const createPollItems = async (id) => {
+    const token = localStorage.getItem("token");
+    const pollId = id;
+    console.log("pollId :>> ", pollId);
+    axios
+      .post(
+        `http://localhost:3001/item`,
+        [
           {
-            option: option,
-          }
-        );
-
-        // console.log(response);
-        array.push(response.objectId);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    return array;
+            poll_id: pollId,
+            item: firstOption,
+          },
+          {
+            poll_id: insertedId,
+            item: secendOption,
+          },
+        ],
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log("res :>> ", res);
+      })
+      .catch((res) => {
+        let error = res.response.data;
+        let status = res.response.status;
+        console.log("error :>> ", error);
+        if (status === 401) {
+          navigate("/signIn");
+        }
+      });
   };
 
   const newInput = () => {
-    setCreateOption([
-      ...createOption,
+    setOption([
+      ...option,
       {
         option: "",
       },
@@ -92,18 +99,18 @@ const CreatePoll = () => {
   };
 
   const DeletInput = (i) => {
-    let newOption = [...createOption];
+    let newOption = [...option];
     newOption.splice(i, 1);
-    setCreateOption(newOption);
+    setOption(newOption);
   };
 
   return (
-    <div className="center">
-      <span style={{ color: "white", marginTop: "30px" }}>Create poll !</span>
-      <div className="big-box ">
+    <div className="main">
+      <div>
+        <h1 style={{ marginTop: "30px" }}>Create poll !</h1>
         <Box
-          style={{ marginLeft: "190px", marginTop: "30px" }}
           sx={{
+            marginTop: "10px",
             display: "flex",
             alignItems: "center",
             "& > :not(style)": { m: 1 },
@@ -111,22 +118,21 @@ const CreatePoll = () => {
         >
           <TextField
             onChange={(e) => setTitle(e.target.value)}
-            style={{ width: "500px" }}
+            value={title}
+            style={{ width: "350px" }}
             id="demo-helper-text-misaligned-no-helper"
             label="Title"
           />
         </Box>
-        {error && title.length <= 0 ? (
-          <span className="center" style={{ color: "red" }}>
-            title cant be emty
-          </span>
-        ) : (
-          ""
-        )}
-        <Box style={{ marginLeft: "196px", marginTop: "30px" }}>
+        <Box
+          style={{
+            marginTop: "10px",
+          }}
+        >
           <TextField
             onChange={(e) => setDescription(e.target.value)}
-            style={{ width: "500px" }}
+            value={description}
+            style={{ width: "350px" }}
             id="outlined-multiline-static"
             label="Description"
             multiline
@@ -134,41 +140,49 @@ const CreatePoll = () => {
           />
         </Box>
 
-        {createOption.map((index, objectId) => (
-          <Box
-            key={objectId}
-            style={{ marginLeft: "190px", marginTop: "30px" }}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              "& > :not(style)": { m: 1 },
-            }}
+        <Box
+          style={{ width: "350px", marginTop: "10px" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            "& > :not(style)": { m: 1 },
+          }}
+        >
+          <TextField
+            onChange={(e) => setFirstOption(e.target.value)}
+            value={firstOption}
+            id="demo-helper-text-misaligned-no-helper"
+            label="option"
+          />
+          <DeleteForeverIcon style={{ color: "grey" }} onClick={DeletInput} />
+          <TextField
+            onChange={(e) => setSecendOption(e.target.value)}
+            value={secendOption}
+            id="demo-helper-text-misaligned-no-helper"
+            label="option"
+          />
+          <DeleteForeverIcon style={{ color: "grey" }} onClick={DeletInput} />
+          <AddCircleIcon
+            onClick={newInput}
+            style={{ color: "grey", marginLeft: "50px" }}
+          />
+        </Box>
+        <p className="error">{error}</p>
+        <div>
+          <Button
+            style={{ color: "grey", marginLeft: "50px", marginTop: "25px" }}
+            onClick={createPoll}
+            variant="outlined"
           >
-            <TextField
-              onChange={(e) => saveOptions(e, objectId)}
-              style={{ width: "500px" }}
-              id="demo-helper-text-misaligned-no-helper"
-              label="option"
-            />
-            <DeleteForeverIcon onClick={DeletInput} />
-          </Box>
-        ))}
-
-        <AddCircleIcon
-          onClick={newInput}
-          style={{ marginLeft: "190px", marginTop: "20px" }}
-        />
-
-        <div className="center">
-          <Button onClick={Create} variant="outlined">
             Create
           </Button>
         </div>
-        <br></br>
-        <br></br>
-        <br></br>
+      </div>
+      <div>
+        <img className="img" alt="create" src={Create}></img>
       </div>
     </div>
   );
 };
+
 export default CreatePoll;

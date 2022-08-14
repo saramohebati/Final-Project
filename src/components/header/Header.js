@@ -50,7 +50,7 @@ function Header() {
             </Button>
             <Button color="inherit">
               <div>
-                <Link to="/">
+                <Link to="/CreatePoll">
                   <AddCircleOutlineIcon color="action" sx={{ fontSize: 20 }} />
                 </Link>
               </div>

@@ -23,7 +23,7 @@ function Landing() {
               Polly is the fastest way to schedule your meetings and events.
             </p>
             <div className="add">
-              <Link to="/"> Create Poll</Link>
+              <Link to="/CreatePoll"> Create Poll</Link>
             </div>
           </div>
 

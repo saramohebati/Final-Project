@@ -57,7 +57,9 @@ function SignIn() {
       className="sign-in"
     >
       <form onSubmit={login}>
-        <div className="box">
+        <div 
+        className="box"
+        >
           <h1>SignIn</h1>
           <TextField
             required
@@ -78,7 +80,7 @@ function SignIn() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <p>{passError}</p>
-          <Button onClick={login} variant="outlined">
+          <Button style={{ color:"grey"}} onClick={login} variant="outlined">
             Login
           </Button>
         </div>
