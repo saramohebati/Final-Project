@@ -6,7 +6,6 @@ import PollList from "./components/pollListPage/PollList";
 import CreatePoll from "./components/createPollPage/CreatePoll";
 import Footer from "./components/footer/Footer";
 import "./App.css";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
