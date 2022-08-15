@@ -54,11 +54,11 @@ function SignIn() {
       }}
       noValidate
       autoComplete="off"
-      className="sign-in"
+      className="box"
     >
       <form onSubmit={login}>
         <div 
-        className="box"
+        className="sign-in"
         >
           <h1>SignIn</h1>
           <TextField
@@ -80,7 +80,12 @@ function SignIn() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <p>{passError}</p>
-          <Button style={{ color:"grey"}} onClick={login} variant="outlined">
+          <Button style={{ 
+            color:"grey",
+            width: "90%",
+            }} 
+            onClick={login} 
+            variant="outlined">
             Login
           </Button>
         </div>

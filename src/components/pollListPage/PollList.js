@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -80,13 +80,15 @@ const PollList = () => {
             <TableCell align="right">{participant}</TableCell>
             <TableCell align="right">
               {link}
-              <Share />
+              <Share style={{ color: "grey" }} />
             </TableCell>
             <TableCell align="right">
-              <DeleteForeverIcon onClick={(e) => deletePoll()} />
+              <DeleteForeverIcon style={{ color: "grey" }} onClick={(e) => deletePoll()} />
             </TableCell>
             <TableCell align="right">
-              <EditIcon onClick={(e) => deletePoll()} />
+              <Link style={{ color: "grey" }} to="/ManagePoll">
+                <EditIcon onClick={(e) => deletePoll()} />{" "}
+              </Link>
             </TableCell>
           </TableRow>
         </TableBody>

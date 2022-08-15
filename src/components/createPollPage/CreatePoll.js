@@ -13,9 +13,8 @@ const CreatePoll = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [option, setOption] = useState([]);
-  const [firstOption, setFirstOption] = useState([]);
-  const [secendOption, setSecendOption] = useState([]);
+  const [firstOption, setFirstOption] = useState("");
+  const [secendOption, setSecendOption] = useState("");
   const [error, setError] = useState("");
   const [insertedId, setInsertedId] = useState("");
 
@@ -89,99 +88,96 @@ const CreatePoll = () => {
       });
   };
 
-  const newInput = () => {
-    setOption([
-      ...option,
-      {
-        option: "",
-      },
-    ]);
-  };
-
-  const DeletInput = (i) => {
-    let newOption = [...option];
-    newOption.splice(i, 1);
-    setOption(newOption);
-  };
-
   return (
-    <div className="main">
-      <div>
-        <h1 style={{ marginTop: "30px" }}>Create poll !</h1>
-        <Box
-          sx={{
-            marginTop: "10px",
+    <Box
+      component="form"
+      className="box"
+      sx={{
+        "& .MuiTextField-root": { m: 2, width: "45ch" },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <form className="main">
+        <div
+          style={{
             display: "flex",
-            alignItems: "center",
-            "& > :not(style)": { m: 1 },
+            flexDirection: "column",
           }}
         >
+          <h1 style={{ marginTop: "30px" }}>Create poll !</h1>
           <TextField
             onChange={(e) => setTitle(e.target.value)}
             value={title}
-            style={{ width: "350px" }}
             id="demo-helper-text-misaligned-no-helper"
             label="Title"
           />
-        </Box>
-        <Box
-          style={{
-            marginTop: "10px",
-          }}
-        >
+          <p className="error"></p>
           <TextField
             onChange={(e) => setDescription(e.target.value)}
             value={description}
-            style={{ width: "350px" }}
             id="outlined-multiline-static"
             label="Description"
             multiline
             rows={4}
           />
-        </Box>
-
-        <Box
-          style={{ width: "350px", marginTop: "10px" }}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            "& > :not(style)": { m: 1 },
-          }}
-        >
-          <TextField
-            onChange={(e) => setFirstOption(e.target.value)}
-            value={firstOption}
-            id="demo-helper-text-misaligned-no-helper"
-            label="option"
-          />
-          <DeleteForeverIcon style={{ color: "grey" }} onClick={DeletInput} />
-          <TextField
-            onChange={(e) => setSecendOption(e.target.value)}
-            value={secendOption}
-            id="demo-helper-text-misaligned-no-helper"
-            label="option"
-          />
-          <DeleteForeverIcon style={{ color: "grey" }} onClick={DeletInput} />
+          <p className="error"></p>
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              onChange={(e) => setFirstOption(e.target.value)}
+              value={firstOption}
+              style={{ width: "300px" }}
+              id="demo-helper-text-misaligned-no-helper"
+              label="option"
+            />
+            <DeleteForeverIcon style={{ color: "grey" }} />
+          </Box>
+          <br></br>
+          <Box
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              onChange={(e) => setSecendOption(e.target.value)}
+              value={secendOption}
+              style={{ width: "300px" }}
+              id="demo-helper-text-misaligned-no-helper"
+              label="option"
+            />
+            <DeleteForeverIcon style={{ color: "grey" }} />
+          </Box>
+          <br></br>
           <AddCircleIcon
-            onClick={newInput}
-            style={{ color: "grey", marginLeft: "50px" }}
+            style={{
+              color: "grey",
+              marginLeft: "50px",
+            }}
           />
-        </Box>
-        <p className="error">{error}</p>
-        <div>
+
+          <p className="error">{error}</p>
           <Button
-            style={{ color: "grey", marginLeft: "50px", marginTop: "25px" }}
+            style={{
+              color: "grey",
+              width: "90%",
+            }}
             onClick={createPoll}
             variant="outlined"
           >
             Create
           </Button>
         </div>
-      </div>
+      </form>
       <div>
         <img className="img" alt="create" src={Create}></img>
       </div>
-    </div>
+    </Box>
   );
 };
 
