@@ -7,7 +7,9 @@ import TextField from "@mui/material/TextField";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+import PollPage from "../../components/pollPage/PollPage";
+
 
 const CreatePoll = () => {
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const CreatePoll = () => {
   const [error, setError] = useState("");
   const [insertedId, setInsertedId] = useState("");
 
-  const createPoll = async () => {
+const createPoll = async () => {
     if (title === "" || firstOption === "" || secendOption === "") {
       setError("Title And Options Fields Can't Be Empty!");
       return;
@@ -45,7 +47,7 @@ const CreatePoll = () => {
       .catch((res) => {
         let error = res.response.data;
         let status = res.response.status;
-        console.log("error :>> ", error);
+        console.log("error :>> ", error, status);
         if (status === 401) {
           navigate("/signIn");
         }
@@ -81,7 +83,7 @@ const CreatePoll = () => {
       .catch((res) => {
         let error = res.response.data;
         let status = res.response.status;
-        console.log("error :>> ", error);
+        console.log("error :>> ", error, status);
         if (status === 401) {
           navigate("/signIn");
         }
@@ -170,8 +172,9 @@ const CreatePoll = () => {
             onClick={createPoll}
             variant="outlined"
           >
-            Create
+            Next
           </Button>
+          <Link style={{ color: "grey" }} to="/PollPage">save</Link>
         </div>
       </form>
       <div>

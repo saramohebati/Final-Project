@@ -11,11 +11,13 @@ import Paper from "@mui/material/Paper";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import Share from "@mui/icons-material/Share";
+import AddIcon from "@mui/icons-material/Add";
+import { Fab } from "@mui/material";
+
+
 
 const PollList = () => {
-  // const [data, setData] = useState([]);
   const [delet, setDelet] = useState([]);
-
   const navigate = useNavigate();
   const [pollData, setPollData] = useState("");
   const [title, setTitle] = useState("");
@@ -39,9 +41,11 @@ const PollList = () => {
         setPollData(pollData);
       })
       .catch((error) => {
+        console.log(error);
         setError(error.message);
       });
   }, []);
+console.log('pollData :>> ', pollData);
 
   const deletePoll = (pollId, e) => {
     const token = localStorage.getItem("token");
@@ -62,38 +66,60 @@ const PollList = () => {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 350 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="right">Title</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Participant</TableCell>
-            <TableCell align="right">Link</TableCell>
-          </TableRow>
-        </TableHead>
+    <div
+      style={{
+        margin: "10px",
+      }}
+    >
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 350 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="right">Title</TableCell>
+              <TableCell align="right">Description</TableCell>
+              <TableCell align="right">Participant</TableCell>
+              <TableCell align="right">Link</TableCell>
+            </TableRow>
+          </TableHead>
 
-        <TableBody>
-          <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-            <TableCell align="right">{title}</TableCell>
-            <TableCell align="right">{description}</TableCell>
-            <TableCell align="right">{participant}</TableCell>
-            <TableCell align="right">
-              {link}
-              <Share style={{ color: "grey" }} />
-            </TableCell>
-            <TableCell align="right">
-              <DeleteForeverIcon style={{ color: "grey" }} onClick={(e) => deletePoll()} />
-            </TableCell>
-            <TableCell align="right">
-              <Link style={{ color: "grey" }} to="/ManagePoll">
-                <EditIcon onClick={(e) => deletePoll()} />{" "}
-              </Link>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+          <TableBody>
+            <TableRow
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell align="right">{title}</TableCell>
+              <TableCell align="right">{description}</TableCell>
+              <TableCell align="right">{participant}</TableCell>
+              <TableCell align="right">
+                {link}
+                <Share style={{ color: "grey" }} />
+              </TableCell>
+              <TableCell align="right">
+                <DeleteForeverIcon
+                  style={{ color: "grey" }}
+                  onClick={(e) => deletePoll()}
+                />
+              </TableCell>
+              <TableCell align="right">
+                <Link style={{ color: "grey" }} to="/ManagePoll">
+                  <EditIcon onClick={(e) => deletePoll()} />{" "}
+                </Link>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Fab
+        style={{
+          margin: "10px",
+        }}
+        aria-label="add"
+        onClick={() => {
+          navigate("/CreatePoll");
+        }}
+      >
+        <AddIcon />
+      </Fab>
+    </div>
   );
 };
 

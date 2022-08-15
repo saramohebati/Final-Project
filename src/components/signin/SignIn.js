@@ -16,8 +16,8 @@ function SignIn() {
 
   const login = () => {
     if (username === "" || password === "") {
-      setUsernameError("");
-      setPassError("");
+      setUsernameError("Can't Be Empty!");
+      setPassError("Can't Be Empty!");
       return;
     }
     axios
@@ -26,7 +26,7 @@ function SignIn() {
         password: password,
       })
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
         const token = response.data.token;
         localStorage.setItem("token", token);
         setUsername("");
@@ -69,7 +69,7 @@ function SignIn() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <p>{usernameError}</p>
+          <p className="error">{usernameError}</p>
           <TextField
             id="outlined-password-input"
             label="Password"
@@ -79,7 +79,7 @@ function SignIn() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <p>{passError}</p>
+          <p className="error">{passError}</p>
           <Button style={{ 
             color:"grey",
             width: "90%",
