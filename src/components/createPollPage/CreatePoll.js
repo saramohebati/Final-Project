@@ -10,14 +10,20 @@ import Button from "@mui/material/Button";
 import { useNavigate, Link } from "react-router-dom";
 import SigninHeader from "../../components/header/SinginHeader";
 import PollPage from "../../components/pollPage/PollPage";
+import { BASE_URL } from "../constants";
 
 const CreatePoll = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [option, setOption] = useState("");
+  const [option, setOption] = useState([]);
+  const [createNewOption, setCreateNewOption] = useState([{}, {}]);
   const [error, setError] = useState("");
   const [insertedId, setInsertedId] = useState("");
+
+  // creatUniqeLink(id) {
+  //   return `http://localhost:3001/poll/${id}`
+  // }
 
   const createPoll = async () => {
     if (title === "" || description === "" || option === "") {
@@ -27,11 +33,13 @@ const CreatePoll = () => {
     const token = localStorage.getItem("token");
     axios
       .post(
-        `http://localhost:3001/poll`,
-        {
-          title: title,
-          description: description,
-        },
+        `http://${BASE_URL}/poll`,
+        [
+          {
+            title: title,
+            description: description,
+          },
+        ],
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -59,7 +67,7 @@ const CreatePoll = () => {
     console.log("pollId :>> ", pollId);
     axios
       .post(
-        `http://localhost:3001/item`,
+        `http://${BASE_URL}/item`,
         [
           {
             poll_id: pollId,
@@ -85,6 +93,20 @@ const CreatePoll = () => {
       });
   };
 
+  const newInput = () => {
+    setCreateNewOption([
+      ...createNewOption,
+      {
+        option: "",
+      },
+    ]);
+  };
+
+  const DeletInput = (i) => {
+    let newOption = [...createNewOption];
+    newOption.splice(i, 1);
+    setCreateNewOption(newOption);
+  };
   return (
     <React.Fragment>
       <SigninHeader />
@@ -129,56 +151,54 @@ const CreatePoll = () => {
               rows={4}
             />
             <p className="error"></p>
-            <Box
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <TextField
-                onChange={(e) => setOption(e.target.value)}
-                value={option}
-                style={{ width: "300px" }}
-                id="demo-helper-text-misaligned-no-helper"
-                label="option"
-              />
-              <DeleteForeverIcon style={{ color: "grey" }} />
-            </Box>
-            <br></br>
-            <Box
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <TextField
-                // onChange={(e) => setSecendOption(e.target.value)}
-                // value={secendOption}
-                style={{ width: "300px" }}
-                id="demo-helper-text-misaligned-no-helper"
-                label="option"
-              />
-              <DeleteForeverIcon style={{ color: "grey" }} />
-            </Box>
+            {createNewOption.map((index, id) => (
+              <Box
+                key={id}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <TextField
+                  onChange={(e) => setOption(e, id)}
+                  value={option}
+                  style={{ width: "300px" }}
+                  id="demo-helper-text-misaligned-no-helper"
+                  label="option"
+                />
+                <DeleteForeverIcon
+                  onClick={DeletInput}
+                  style={{ color: "grey" }}
+                />
+              </Box>
+            ))}
             <br></br>
             <AddCircleIcon
+              onClick={newInput}
               style={{
                 color: "grey",
                 marginLeft: "50px",
               }}
             />
-
             <p className="error">{error}</p>
-            <Button
+            <div
               style={{
-                color: "grey",
-                width: "90%",
+                display: "flex",
+                justifyContent: "center",
               }}
-              onClick={createPoll}
-              variant="outlined"
             >
-              Next
-            </Button>
+              <Button
+                style={{
+                  color: "grey",
+                  width: "90%",
+                }}
+                onClick={createPoll}
+                variant="outlined"
+              >
+                Next
+              </Button>
+            </div>
+
             <Link style={{ color: "grey" }} to="/PollPage">
               save
             </Link>
