@@ -5,31 +5,62 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SigninHeader from "../../components/header/SinginHeader";
+import { BASE_URL } from "../constants";
 
 const ManagePoll = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDiscription] = useState("");
+  const { id } = useParams();
 
-  const ManagePollData = () => {
-    console.log("edit :>> ");
+  const getPollData = (id) => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .get("http://${BASE_URL}/poll/${id}", {
+        header: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setTitle(response.data.title);
+        setDiscription(response.data.description);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   axios
-  //     .patch("http://localhost:3001/poll/${id}", {
-  //       header: {
-  //         authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((response) => {})
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    getPollData(id);
+  }, []);
+
+  const updateData = () => {
+    const token = localStorage.getItem("token");
+
+    axios
+      .patch("http://${BASE_URL}/poll/${id}", 
+      [
+        {
+          title: title,
+          description: description,
+        },
+      ],
+      {
+        header: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <React.Fragment>
@@ -80,7 +111,7 @@ const ManagePoll = () => {
               }}
             >
               <Button
-                onClick={ManagePollData}
+                onClick={updateData}
                 style={{
                   color: "grey",
                   marginTop: "40px",

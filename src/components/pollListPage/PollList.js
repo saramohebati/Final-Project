@@ -14,54 +14,80 @@ import Share from "@mui/icons-material/Share";
 import AddIcon from "@mui/icons-material/Add";
 import { Fab } from "@mui/material";
 import SigninHeader from "../../components/header/SinginHeader";
+import { BASE_URL } from "../constants";
 
 const PollList = () => {
   const navigate = useNavigate();
-  const [delet, setDelet] = useState([]);
+  const [pollDelete, setPollDelete] = useState([]);
   const [pollData, setPollData] = useState([]);
-  const [title, setTitle] = useState([]);
-  const [description, setDescription] = useState("");
-  const [link, setLink] = useState("");
-  const [participant, setParticipant] = useState("");
-  const [error, setError] = useState("");
-
+  // const [title, setTitle] = useState([]);
+  // const [description, setDescription] = useState("");
+  // const [link, setLink] = useState("");
+  // const [participant, setParticipant] = useState("");
+  // const [error, setError] = useState("");
   // let participants ={totalParticipant} - 1;
 
   useEffect(() => {
+    const getData = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const { pollData: response } = await axios.get(
+          "http://${BASE_URL}/poll/",
+          {
+            header: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+           setPollData(response.data);
+        console.log(response.data);
+        })
+      } catch(error) {
+        console.error(error.message);
+      }
+    };
+    getData();
+  }, []);
+
+  //   axios
+  //     .get("http://${BASE_URL}/poll/${id}", {
+  //       header: {
+  //         authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       let pollData = response.data;
+  //       setPollData(pollData);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setError(error.message);
+  //     });
+  // }, []);
+  // console.log("pollData :>> ", pollData);
+
+  const deletePoll = (id, e) => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3001/poll/${id}", {
+      .delete(`http://${BASE_URL}/poll/${id}`, {
         header: {
           authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        let pollData = response.data;
-        setPollData(pollData);
-      })
-      .catch((error) => {
-        console.log(error);
-        setError(error.message);
-      });
-  }, []);
-  console.log("pollData :>> ", pollData);
-
-  const deletePoll = (pollId, e) => {
-    const token = localStorage.getItem("token");
-    axios
-      .delete(`http://localhost:3001/poll/${pollId}`, {
-        header: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then(() => {
-        const deletePoll = delet.filter((row) => pollId !== row.pollId);
-        setDelet(deletePoll);
+        const deletePoll = pollDelete.filter((row) => id !== row.id);
+        setPollDelete(deletePoll);
         window.location.reload(false);
+        console.log(response.data);
       })
       .catch((error) => {
-        error("");
+        console.log(error.message);
       });
+  };
+
+  const routeChange = (id) => {
+    navigate("/ManagePoll/${id}");
   };
 
   return (
@@ -94,28 +120,32 @@ const PollList = () => {
             </TableHead>
 
             <TableBody>
-              <TableRow
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="right">{title}</TableCell>
-                <TableCell align="right">{description}</TableCell>
-                <TableCell align="right">{participant}</TableCell>
-                <TableCell align="right">
-                  {link}
-                  <Share style={{ color: "grey" }} />
-                </TableCell>
-                <TableCell align="right">
-                  <DeleteForeverIcon
-                    style={{ color: "grey" }}
-                    onClick={(e) => deletePoll()}
-                  />
-                </TableCell>
-                <TableCell align="right">
-                  <Link style={{ color: "grey" }} to="/ManagePoll">
-                    <EditIcon onClick={(e) => deletePoll()} />{" "}
-                  </Link>
-                </TableCell>
-              </TableRow>
+              {pollData.map((row, id) => (
+                <TableRow
+                  key={id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="right">{row.title}</TableCell>
+                  <TableCell align="right">{row.description}</TableCell>
+                  <TableCell align="right">{row.participant}</TableCell>
+                  <TableCell align="right">
+                    {""}
+                    http://localhost3000/PollPage/{row.id}
+                    <Share style={{ color: "grey" }} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <DeleteForeverIcon
+                      style={{ color: "grey" }}
+                      onClick={(e) => deletePoll(row.id)}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    <Link style={{ color: "grey" }} to="/ManagePoll">
+                      <EditIcon onClick={(e) => routeChange(row.id)} />
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
