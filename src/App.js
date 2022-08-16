@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "./components/header/Header";
 import Landing from "./components/landingPage/Landing";
 import SignIn from "./components/signIn/SignIn";
 import PollList from "./components/pollListPage/PollList";
@@ -14,7 +13,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <Router>
-      <Header />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/SignIn" element={<SignIn />} />

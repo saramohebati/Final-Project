@@ -13,14 +13,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import Share from "@mui/icons-material/Share";
 import AddIcon from "@mui/icons-material/Add";
 import { Fab } from "@mui/material";
-
-
+import SigninHeader from "../../components/header/SinginHeader";
 
 const PollList = () => {
-  const [delet, setDelet] = useState([]);
   const navigate = useNavigate();
-  const [pollData, setPollData] = useState("");
-  const [title, setTitle] = useState("");
+  const [delet, setDelet] = useState([]);
+  const [pollData, setPollData] = useState([]);
+  const [title, setTitle] = useState([]);
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
   const [participant, setParticipant] = useState("");
@@ -31,7 +30,7 @@ const PollList = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3001/poll/", {
+      .get("http://localhost:3001/poll/${id}", {
         header: {
           authorization: `Bearer ${token}`,
         },
@@ -45,7 +44,7 @@ const PollList = () => {
         setError(error.message);
       });
   }, []);
-console.log('pollData :>> ', pollData);
+  console.log("pollData :>> ", pollData);
 
   const deletePoll = (pollId, e) => {
     const token = localStorage.getItem("token");
@@ -66,60 +65,73 @@ console.log('pollData :>> ', pollData);
   };
 
   return (
-    <div
-      style={{
-        margin: "10px",
-      }}
-    >
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 350 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="right">Title</TableCell>
-              <TableCell align="right">Description</TableCell>
-              <TableCell align="right">Participant</TableCell>
-              <TableCell align="right">Link</TableCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            <TableRow
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="right">{title}</TableCell>
-              <TableCell align="right">{description}</TableCell>
-              <TableCell align="right">{participant}</TableCell>
-              <TableCell align="right">
-                {link}
-                <Share style={{ color: "grey" }} />
-              </TableCell>
-              <TableCell align="right">
-                <DeleteForeverIcon
-                  style={{ color: "grey" }}
-                  onClick={(e) => deletePoll()}
-                />
-              </TableCell>
-              <TableCell align="right">
-                <Link style={{ color: "grey" }} to="/ManagePoll">
-                  <EditIcon onClick={(e) => deletePoll()} />{" "}
-                </Link>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Fab
+    <React.Fragment>
+      <SigninHeader />
+      <div
         style={{
           margin: "10px",
         }}
-        aria-label="add"
-        onClick={() => {
-          navigate("/CreatePoll");
-        }}
       >
-        <AddIcon />
-      </Fab>
-    </div>
+        <h1
+          style={{
+            marginTop: "30px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          Poll List
+        </h1>
+
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 350 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">Title</TableCell>
+                <TableCell align="right">Description</TableCell>
+                <TableCell align="right">Participant</TableCell>
+                <TableCell align="right">Link</TableCell>
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              <TableRow
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="right">{title}</TableCell>
+                <TableCell align="right">{description}</TableCell>
+                <TableCell align="right">{participant}</TableCell>
+                <TableCell align="right">
+                  {link}
+                  <Share style={{ color: "grey" }} />
+                </TableCell>
+                <TableCell align="right">
+                  <DeleteForeverIcon
+                    style={{ color: "grey" }}
+                    onClick={(e) => deletePoll()}
+                  />
+                </TableCell>
+                <TableCell align="right">
+                  <Link style={{ color: "grey" }} to="/ManagePoll">
+                    <EditIcon onClick={(e) => deletePoll()} />{" "}
+                  </Link>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Fab
+          style={{
+            margin: "10px",
+          }}
+          aria-label="add"
+          onClick={() => {
+            navigate("/CreatePoll");
+          }}
+        >
+          <AddIcon />
+        </Fab>
+      </div>
+    </React.Fragment>
   );
 };
 

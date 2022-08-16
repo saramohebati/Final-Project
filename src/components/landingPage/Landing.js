@@ -8,10 +8,13 @@ import { Link } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
+import Header from "../../components/header/Header";
+
 
 function Landing() {
   return (
     <React.Fragment>
+      <Header />
       <CssBaseline />
       <Container fixed>
         <Box sx={{ height: "100%" }} />
