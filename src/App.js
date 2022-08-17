@@ -5,6 +5,7 @@ import PollList from "./components/pollListPage/PollList";
 import CreatePoll from "./components/createPollPage/CreatePoll";
 import PollPage from "./components/pollPage/PollPage";
 import ManagePoll from "./components/managePoll/ManagePoll";
+import Link from "./components/link/Link"
 
 import Footer from "./components/footer/Footer";
 import "./App.css";
@@ -18,8 +19,9 @@ function App() {
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/PollList" element={<PollList />} />
         <Route path="/CreatePoll" element={<CreatePoll />} />
-        <Route path="/ManagePoll" element={<ManagePoll />}></Route>
-        <Route path="/PollPage" element={<PollPage />}></Route>
+        <Route path="/ManagePoll/:id" element={<ManagePoll />}></Route>
+        <Route path="/PollPage/:id" element={<PollPage />}></Route>
+        <Route path="/link/:id" element={<Link />}></Route>
 
       </Routes>
       <Footer />
