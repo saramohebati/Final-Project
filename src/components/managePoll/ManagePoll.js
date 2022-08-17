@@ -15,50 +15,55 @@ const ManagePoll = () => {
   const [description, setDiscription] = useState("");
   const { id } = useParams();
 
-  const getPollData = (id) => {
-    const token = localStorage.getItem("token");
-
-    axios
-      .get("http://${BASE_URL}/poll/${id}", {
-        header: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        setTitle(response.data.title);
-        setDiscription(response.data.description);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-  };
-
   useEffect(() => {
+    const getPollData = (id) => {
+      const token = localStorage.getItem("token");
+
+      axios
+        .get(`http://${BASE_URL}/poll/${id}`, {
+          header: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then(async (response) => {
+          console.log(response);
+          setTitle(response.data[0].title);
+          setDiscription(response.data[0].description);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
     getPollData(id);
   }, []);
 
   const updateData = () => {
     const token = localStorage.getItem("token");
-
     axios
-      .patch("http://${BASE_URL}/poll/${id}", 
-      [
+      .patch(
+        `http://${BASE_URL}/poll/${id}`,
+        [
+          {
+            title: title,
+            description: description,
+          },
+        ],
         {
-          title: title,
-          description: description,
-        },
-      ],
-      {
-        header: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+          header: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
+        navigate("/PollList");
       })
       .catch((error) => {
         console.log(error);
+        let status = error.response.status;
+        if (status === 401) {
+          navigate("/signIn");
+        }
       });
   };
 
@@ -83,7 +88,7 @@ const ManagePoll = () => {
               justifyContent: "center",
             }}
           >
-            Manage Poll !
+            Manage Poll
           </h1>
           <div>
             <TextField
