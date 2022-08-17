@@ -19,7 +19,6 @@ const CreatePoll = () => {
   const [option, setOption] = useState([]);
   const [createNewOption, setCreateNewOption] = useState([{}, {}]);
   const [error, setError] = useState("");
-  const [insertedId, setInsertedId] = useState("");
 
 
   const createPoll = async () => {
@@ -43,15 +42,14 @@ const CreatePoll = () => {
           },
         }
       )
-      .then((res) => {
-        const id = res.data[0].insertId;
-        setInsertedId(id);
-        createPollItems(insertedId);
+      .then((response) => {
+        const id = response.data[0].insertId;
+        createPollItems(id);
       })
-      .catch((res) => {
-        let error = res.response.data;
-        let status = res.response.status;
-        console.log("error :>> ", error, status);
+      .catch((err) => {
+        let error = err.response.data;
+        let status = err.response.status;
+console.log('err :>> ', status,error);
         if (status === 401) {
           navigate("/signIn");
         }
@@ -61,7 +59,6 @@ const CreatePoll = () => {
   const createPollItems = async (id) => {
     const token = localStorage.getItem("token");
     const pollId = id;
-    console.log("pollId :>> ", pollId);
     axios
       .post(
         `http://${BASE_URL}/item`,
@@ -78,19 +75,19 @@ const CreatePoll = () => {
         }
       )
       .then((res) => {
-        console.log(pollId);
+        getUniqeLink(pollId);
       })
-      .catch((res) => {
-        let error = res.response.data;
-        let status = res.response.status;
-        console.log("error :>> ", error, status);
+      .catch((err) => {
+        let error = err.response.data;
+        let status = err.response.status;
+        console.log("err :>> ", error, status);
         if (status === 401) {
           navigate("/signIn");
         }
       });
   };
 
-  const createUniqeLink = async (id) => {
+  const getUniqeLink = async (id) => {
     const token = localStorage.getItem("token");
     axios
       .get(`http://${BASE_URL}/poll/pollId/${id}`, {
@@ -98,11 +95,10 @@ const CreatePoll = () => {
           authorization: `Bearer ${token}`,
         },
       })
-      .then(async (res) => {
-        let link = await res.data[0].link;
-        if (link) {
-          setOpenmodal(link);
-        }
+      .then(async (response) => {
+        let link = await response.data[0].link;
+          navigate(`/link/${link}`);
+        
       })
       .catch((error) => {
         console.log(error);
@@ -123,6 +119,7 @@ const CreatePoll = () => {
     newOption.splice(i, 1);
     setCreateNewOption(newOption);
   };
+
   return (
     <React.Fragment>
       <SigninHeader />
@@ -167,7 +164,7 @@ const CreatePoll = () => {
               rows={4}
             />
             <p className="error"></p>
-            {createNewOption.map((index, id) => (
+            {createNewOption.map((i, id) => (
               <Box
                 key={id}
                 style={{

@@ -24,48 +24,28 @@ const PollList = () => {
   // const [description, setDescription] = useState("");
   // const [link, setLink] = useState("");
   // const [participant, setParticipant] = useState("");
-  // const [error, setError] = useState("");
+
   // let participants ={totalParticipant} - 1;
 
   useEffect(() => {
     const getData = async () => {
       const token = localStorage.getItem("token");
-      try {
-        const { pollData: response } = await axios.get(
-          "http://${BASE_URL}/poll/",
-          {
-            header: {
-              authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then((response) => {
-           setPollData(response.data);
-        console.log(response.data);
+
+      axios
+        .get(`http://${BASE_URL}/poll/`, {
+          header: {
+            authorization: `Bearer ${token}`,
+          },
         })
-      } catch(error) {
-        console.error(error.message);
-      }
+        .then((response) => {
+          setPollData(response.data[0]);
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
     };
     getData();
   }, []);
-
-  //   axios
-  //     .get("http://${BASE_URL}/poll/${id}", {
-  //       header: {
-  //         authorization: `Bearer ${token}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       let pollData = response.data;
-  //       setPollData(pollData);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setError(error.message);
-  //     });
-  // }, []);
-  // console.log("pollData :>> ", pollData);
 
   const deletePoll = (id, e) => {
     const token = localStorage.getItem("token");
@@ -76,7 +56,7 @@ const PollList = () => {
         },
       })
       .then((response) => {
-        const deletePoll = pollDelete.filter((row) => id !== row.id);
+        const deletePoll = pollDelete.filter((data) => id !== data.id);
         setPollDelete(deletePoll);
         window.location.reload(false);
         console.log(response.data);
@@ -120,28 +100,28 @@ const PollList = () => {
             </TableHead>
 
             <TableBody>
-              {pollData.map((row, id) => (
+              {pollData.map((data, id) => (
                 <TableRow
                   key={id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="right">{row.title}</TableCell>
-                  <TableCell align="right">{row.description}</TableCell>
-                  <TableCell align="right">{row.participant}</TableCell>
+                  <TableCell align="right">{data.title}</TableCell>
+                  <TableCell align="right">{data.description}</TableCell>
+                  <TableCell align="right">{data.participant}</TableCell>
                   <TableCell align="right">
                     {""}
-                    http://localhost3000/PollPage/{row.id}
+                    http://localhost3000/PollPage/{data.id}
                     <Share style={{ color: "grey" }} />
                   </TableCell>
                   <TableCell align="right">
                     <DeleteForeverIcon
                       style={{ color: "grey" }}
-                      onClick={(e) => deletePoll(row.id)}
+                      onClick={(e) => deletePoll(data.id)}
                     />
                   </TableCell>
                   <TableCell align="right">
                     <Link style={{ color: "grey" }} to="/ManagePoll">
-                      <EditIcon onClick={(e) => routeChange(row.id)} />
+                      <EditIcon onClick={(e) => routeChange(data.id)} />
                     </Link>
                   </TableCell>
                 </TableRow>
