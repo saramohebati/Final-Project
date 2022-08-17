@@ -21,9 +21,6 @@ const CreatePoll = () => {
   const [error, setError] = useState("");
   const [insertedId, setInsertedId] = useState("");
 
-  // creatUniqeLink(id) {
-  //   return `http://localhost:3001/poll/${id}`
-  // }
 
   const createPoll = async () => {
     if (title === "" || description === "" || option === "") {
@@ -81,7 +78,7 @@ const CreatePoll = () => {
         }
       )
       .then((res) => {
-        console.log("res :>> ", res);
+        console.log(pollId);
       })
       .catch((res) => {
         let error = res.response.data;
@@ -90,6 +87,25 @@ const CreatePoll = () => {
         if (status === 401) {
           navigate("/signIn");
         }
+      });
+  };
+
+  const createUniqeLink = async (id) => {
+    const token = localStorage.getItem("token");
+    axios
+      .get(`http://${BASE_URL}/poll/pollId/${id}`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+      .then(async (res) => {
+        let link = await res.data[0].link;
+        if (link) {
+          setOpenmodal(link);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -170,6 +186,7 @@ const CreatePoll = () => {
                   onClick={DeletInput}
                   style={{ color: "grey" }}
                 />
+                <p className="error">{error}</p>
               </Box>
             ))}
             <br></br>
@@ -198,10 +215,6 @@ const CreatePoll = () => {
                 Next
               </Button>
             </div>
-
-            <Link style={{ color: "grey" }} to="/PollPage">
-              save
-            </Link>
           </div>
         </form>
         <div>
