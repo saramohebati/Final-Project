@@ -4,11 +4,13 @@ import Typography from "@mui/material/Typography";
 import { useNavigate, useParams } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
 import { ContentCopy } from "@mui/icons-material";
+import { BASE_URL } from "../constants";
 
 const PollLink = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const link = `http://${BASE_URL}/poll/${id}`;
   return (
     <div>
       <SigninHeader />
@@ -29,7 +31,7 @@ const PollLink = () => {
             <ContentCopy
               style={{ marginTop: "15px", marginLeft: "15px" }}
               onClick={() => {
-                navigator.clipboard.writeText(id);
+                navigator.clipboard.writeText(link);
               }}
             />
           </div>

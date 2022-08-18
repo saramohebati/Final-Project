@@ -21,14 +21,14 @@ const ManagePoll = () => {
 
       axios
         .get(`http://${BASE_URL}/poll/${id}`, {
-          header: {
+          headers: {
             authorization: `Bearer ${token}`,
           },
         })
         .then(async (response) => {
           console.log(response);
-          setTitle(response.data[0].title);
-          setDiscription(response.data[0].description);
+          setTitle(response.data.title);
+          setDiscription(response.data.description);
         })
         .catch((error) => {
           console.log(error);
@@ -42,27 +42,26 @@ const ManagePoll = () => {
     axios
       .patch(
         `http://${BASE_URL}/poll/${id}`,
-        [
-          {
-            title: title,
-            description: description,
-          },
-        ],
+
         {
-          header: {
+          title: title,
+          description: description,
+        },
+        {
+          headers: {
             authorization: `Bearer ${token}`,
           },
         }
       )
       .then((response) => {
         console.log(response);
-        navigate("/PollList");
+        navigate(`/PollPage/${id}`);
       })
       .catch((error) => {
         console.log(error);
         let status = error.response.status;
         if (status === 401) {
-          navigate("/signIn");
+          navigate(`/SignIn`);
         }
       });
   };
