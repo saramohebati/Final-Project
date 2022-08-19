@@ -20,25 +20,19 @@ const PollList = () => {
   const navigate = useNavigate();
   const [pollDelete, setPollDelete] = useState([]);
   const [pollData, setPollData] = useState([]);
-  // const [title, setTitle] = useState([]);
-  // const [description, setDescription] = useState("");
-  // const [link, setLink] = useState("");
-  // const [participant, setParticipant] = useState("");
-
-  // let participants ={totalParticipant} - 1;
 
   useEffect(() => {
     const getData = async () => {
       const token = localStorage.getItem("token");
 
       axios
-        .get(`http://${BASE_URL}/poll/`, {
-          header: {
+        .get(`http://${BASE_URL}/poll`, {
+          headers: {
             authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
-          setPollData(response.data[0]);
+          setPollData(response.data);
         })
         .catch((error) => {
           console.error(error.message);
@@ -51,7 +45,7 @@ const PollList = () => {
     const token = localStorage.getItem("token");
     axios
       .delete(`http://${BASE_URL}/poll/${id}`, {
-        header: {
+        headers: {
           authorization: `Bearer ${token}`,
         },
       })
@@ -64,10 +58,7 @@ const PollList = () => {
       .catch((error) => {
         console.log(error.message);
       });
-  };
-
-  const routeChange = (id) => {
-    navigate("/ManagePoll/${id}");
+    navigate(`/PollList`);
   };
 
   return (
@@ -100,29 +91,43 @@ const PollList = () => {
             </TableHead>
 
             <TableBody>
-              {pollData.map((data, id) => (
+              {pollData.map((data, index) => (
+              
                 <TableRow
-                  key={id}
+                  key={data.link}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="right">{data.title}</TableCell>
+                  <TableCell
+                    align="right"
+                    onClick={() => {
+                      navigate(`/PollPage/${data.link}`);
+                    }}
+                  >
+                    {data.title}
+                  </TableCell>
                   <TableCell align="right">{data.description}</TableCell>
                   <TableCell align="right">{data.participant}</TableCell>
                   <TableCell align="right">
                     {""}
-                    http://localhost3000/PollPage/{data.id}
-                    <Share style={{ color: "grey" }} />
+                    <Share
+                      style={{ color: "grey" }}
+                      onClick={() => {
+                        navigate(`/Link/${data.link}`);
+                      }}
+                    />
                   </TableCell>
                   <TableCell align="right">
                     <DeleteForeverIcon
                       style={{ color: "grey" }}
-                      onClick={(e) => deletePoll(data.id)}
+                      onClick={(e) => deletePoll(data.link)}
                     />
                   </TableCell>
                   <TableCell align="right">
-                    <Link style={{ color: "grey" }} to="/ManagePoll">
-                      <EditIcon onClick={(e) => routeChange(data.id)} />
-                    </Link>
+                      <EditIcon
+                        onClick={() => {
+                          navigate(`/ManagePoll/${data.link}`);
+                        }}
+                      />
                   </TableCell>
                 </TableRow>
               ))}
@@ -135,7 +140,7 @@ const PollList = () => {
           }}
           aria-label="add"
           onClick={() => {
-            navigate("/CreatePoll");
+            navigate(`/CreatePoll`);
           }}
         >
           <AddIcon />
