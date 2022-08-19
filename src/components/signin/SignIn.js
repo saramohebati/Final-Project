@@ -16,7 +16,8 @@ function SignIn() {
   const [usernameError, setUsernameError] = useState("");
   const [passError, setPassError] = useState("");
 
-  const login = () => {
+  const login = (event) => {
+    event.preventDefault();
     if (username === "" || password === "") {
       setUsernameError("Can't Be Empty!");
       setPassError("Can't Be Empty!");
@@ -33,7 +34,7 @@ function SignIn() {
         localStorage.setItem("token", token);
         setUsername("");
         setPassword("");
-        navigate("/PollList");
+        navigate(`/PollList`);
       })
       .catch((res) => {
         const error = res.response.data;
@@ -52,7 +53,6 @@ function SignIn() {
     <React.Fragment>
       <SigninHeader />
       <Box
-        component="form"
         sx={{
           "& .MuiTextField-root": { m: 2, width: "45ch" },
         }}
@@ -87,8 +87,8 @@ function SignIn() {
                 color: "grey",
                 width: "90%",
               }}
-              onClick={login}
               variant="outlined"
+              type="submit"
             >
               Login
             </Button>
