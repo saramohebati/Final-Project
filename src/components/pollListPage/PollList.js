@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -92,7 +92,6 @@ const PollList = () => {
 
             <TableBody>
               {pollData.map((data, index) => (
-              
                 <TableRow
                   key={data.link}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -123,11 +122,11 @@ const PollList = () => {
                     />
                   </TableCell>
                   <TableCell align="right">
-                      <EditIcon
-                        onClick={() => {
-                          navigate(`/ManagePoll/${data.link}`);
-                        }}
-                      />
+                    <EditIcon
+                      onClick={() => {
+                        navigate(`/ManagePoll/${data.link}`);
+                      }}
+                    />
                   </TableCell>
                 </TableRow>
               ))}

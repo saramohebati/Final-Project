@@ -7,35 +7,31 @@ import TextField from "@mui/material/TextField";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Button from "@mui/material/Button";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SigninHeader from "../../components/header/SinginHeader";
-import PollPage from "../../components/pollPage/PollPage";
 import { BASE_URL } from "../constants";
 
 const CreatePoll = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [option, setOption] = useState([]);
-  const [createNewOption, setCreateNewOption] = useState([{}, {}]);
+  const [options, setOptions] = useState([]);
+  const [newInput, setNewInput] = useState([{}, {}]);
   const [error, setError] = useState("");
 
-
   const createPoll = async () => {
-    if (title === "" || description === "" || option === "") {
-      setError("Title and Description and Options Fields Can't Be Empty!");
+    if (title === "" || description === "" || options === "") {
+      setError("Title and Description and Optionss Fields Can't Be Empty!");
       return;
     }
     const token = localStorage.getItem("token");
     axios
       .post(
         `http://${BASE_URL}/poll`,
-        [
-          {
-            title: title,
-            description: description,
-          },
-        ],
+        {
+          title: title,
+          description: description,
+        },
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -43,20 +39,19 @@ const CreatePoll = () => {
         }
       )
       .then((response) => {
-        const id = response.data[0].insertId;
-        createPollItems(id);
+        createItems(response.data.insertId);
       })
       .catch((err) => {
         let error = err.response.data;
         let status = err.response.status;
-console.log('err :>> ', status,error);
+        console.log("err1 :>> ", status, error);
         if (status === 401) {
-          navigate("/signIn");
+          navigate(`/PollList`);
         }
       });
   };
 
-  const createPollItems = async (id) => {
+  const createItems = async (id) => {
     const token = localStorage.getItem("token");
     const pollId = id;
     axios
@@ -65,9 +60,10 @@ console.log('err :>> ', status,error);
         [
           {
             poll_id: pollId,
-            title: option,
+            title: options,
           },
         ],
+
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -82,7 +78,7 @@ console.log('err :>> ', status,error);
         let status = err.response.status;
         console.log("err :>> ", error, status);
         if (status === 401) {
-          navigate("/signIn");
+          navigate(`/SignIn`);
         }
       });
   };
@@ -90,24 +86,24 @@ console.log('err :>> ', status,error);
   const getUniqeLink = async (id) => {
     const token = localStorage.getItem("token");
     axios
-      .get(`http://${BASE_URL}/poll/pollId/${id}`, {
+      .get(`http://${BASE_URL}/poll/${id}`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
       })
       .then(async (response) => {
         let link = await response.data[0].link;
-          navigate(`/link/${link}`);
-        
+        console.log("response :>> ", response);
+        navigate(`/Link/${link}`);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
   };
 
-  const newInput = () => {
-    setCreateNewOption([
-      ...createNewOption,
+  const createNewInput = () => {
+    setNewInput([
+      ...newInput,
       {
         option: "",
       },
@@ -115,16 +111,20 @@ console.log('err :>> ', status,error);
   };
 
   const DeletInput = (i) => {
-    let newOption = [...createNewOption];
-    newOption.splice(i, 1);
-    setCreateNewOption(newOption);
+    let newOptions = [...newInput];
+    newOptions.splice(i, 1);
+    setNewInput(newOptions);
+  };
+
+  const handelChenge = (value, index) => {
+    const option = options.slice(index, value);
+    setOptions(option);
   };
 
   return (
     <React.Fragment>
       <SigninHeader />
       <Box
-        component="form"
         className="box"
         sx={{
           "& .MuiTextField-root": { m: 2, width: "45ch" },
@@ -154,7 +154,6 @@ console.log('err :>> ', status,error);
               id="demo-helper-text-misaligned-no-helper"
               label="Title"
             />
-            <p className="error"></p>
             <TextField
               onChange={(e) => setDescription(e.target.value)}
               value={description}
@@ -163,32 +162,31 @@ console.log('err :>> ', status,error);
               multiline
               rows={4}
             />
-            <p className="error"></p>
-            {createNewOption.map((i, id) => (
-              <Box
-                key={id}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <TextField
-                  onChange={(e) => setOption(e, id)}
-                  value={option}
-                  style={{ width: "300px" }}
-                  id="demo-helper-text-misaligned-no-helper"
-                  label="option"
-                />
-                <DeleteForeverIcon
-                  onClick={DeletInput}
-                  style={{ color: "grey" }}
-                />
-                <p className="error">{error}</p>
-              </Box>
-            ))}
-            <br></br>
+            {newInput.map((i, index) => {
+              return (
+                <Box
+                  key={index}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <TextField
+                    onChange={(e) => handelChenge(e.target.value, index)}
+                    value={options[index]}
+                    style={{ width: "300px" }}
+                    id="demo-helper-text-misaligned-no-helper"
+                    label="options"
+                  />
+                  <DeleteForeverIcon
+                    onClick={DeletInput}
+                    style={{ color: "grey" }}
+                  />
+                </Box>
+              );
+            })}
             <AddCircleIcon
-              onClick={newInput}
+              onClick={createNewInput}
               style={{
                 color: "grey",
                 marginLeft: "50px",
