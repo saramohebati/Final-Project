@@ -5,33 +5,35 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableRow from "@mui/material/TableRow";
-import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import SigninHeader from "../../components/header/SinginHeader";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BASE_URL } from "../constants";
 
 const PollPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [name, setName] = useState("");
+  const [options, setOptions] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     axios
-      .get(
-        `http://${BASE_URL}/poll/${"65e5410e-474d-49c2-899b-df2e97fa1201"}`,
-        {
-          header: {
-            authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .get(`http://${BASE_URL}/poll/${id}`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
-        setTitle(response.data[0].title);
-        setDescription(response.data[0].description);
+        setTitle(response.data.title);
+        setDescription(response.data.description);
+        setName(response.data.name);
+        setOptions(response.data.poll_item);
+        console.log("response :>> ", response);
       })
       .catch((error) => {
         console.log(error);
@@ -58,14 +60,36 @@ const PollPage = () => {
         >
           Poll Page
         </h1>
-        <div>
-          <h1>{title}</h1>
-          <p>{description}</p>
-        </div>
         <div style={{ marginTop: "80px" }} className="big-box">
+          <div>
+            <h2>Title: {title}</h2>
+            <h3>Description: {description}</h3>
+          </div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 550 }} aria-label="simple table">
               <TableBody>
+                <TableRow>
+                  <TableCell>
+                    <h4
+                      style={{
+                        width: "100px",
+                        height: "20px",
+                      }}
+                    >
+                      Participant: {name}
+                    </h4>
+                  </TableCell>
+                  <TableCell>
+                    <p
+                      style={{
+                        width: "100px",
+                        height: "20px",
+                      }}
+                    >
+                      {options}
+                    </p>
+                  </TableCell>
+                </TableRow>
                 <TableRow>
                   <TableCell>
                     <input
@@ -73,10 +97,15 @@ const PollPage = () => {
                         width: "100px",
                         height: "20px",
                       }}
+                      onChange={(e) => setName(e.target.value)}
+                      value={name}
                     />
                   </TableCell>
                   <TableCell>
-                    <Checkbox />
+                    <Checkbox
+                      value={options}
+                      onChange={(e) => setOptions(e.target.value)}
+                    />
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -91,10 +120,9 @@ const PollPage = () => {
           }}
           variant="outlined"
           type="submit"
-          // onClick={() => {
-          //   createParticipantData();
-          //   createChoice();
-          // }}
+          onClick={() => {
+            navigate(`/PollList`);
+          }}
         >
           Save
         </Button>
