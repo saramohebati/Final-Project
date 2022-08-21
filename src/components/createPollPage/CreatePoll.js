@@ -72,6 +72,7 @@ const CreatePoll = () => {
       )
       .then((res) => {
         getUniqeLink(pollId);
+        console.log('res :>> ', res);
       })
       .catch((err) => {
         let error = err.response.data;
